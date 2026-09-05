@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<!--#include head -->
+  <title>Sua sacola — Morada do Japu</title>
+  <meta name="robots" content="noindex">
+</head>
+<body>
+<!--#include cabecalho -->
+
+<main id="conteudo" class="section--tight">
+  <div class="wrap">
+    <p class="eyebrow eyebrow--mute">Fechar pedido</p>
+    <h1>Sua sacola</h1>
+
+    <div class="checkout-layout">
+      <section aria-label="Itens da sacola">
+        <div id="itens" aria-busy="true"></div>
+      </section>
+
+      <aside class="checkout-side">
+        <form id="form-pedido" novalidate>
+          <h2>Entrega</h2>
+
+          <div class="field">
+            <label for="cep">CEP</label>
+            <input id="cep" name="cep" type="text" inputmode="numeric" maxlength="9"
+                   placeholder="00000-000" autocomplete="postal-code" required>
+            <p class="field-hint">Enviamos de Ilhéus — BA. O frete aparece aqui, não na última tela.</p>
+            <p class="field-error" id="erro-cep" role="alert"></p>
+          </div>
+
+          <div id="opcoes-frete" class="stack"></div>
+
+          <h2>Seus dados</h2>
+          <div class="field">
+            <label for="nome">Nome</label>
+            <input id="nome" name="name" type="text" maxlength="120" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="email">E-mail</label>
+            <input id="email" name="email" type="email" maxlength="180" autocomplete="email" required>
+            <p class="field-hint">Só para o comprovante e o código de rastreio.</p>
+          </div>
+          <p class="field-error" id="erro-form" role="alert"></p>
+
+          <div class="totals" id="totais"></div>
+
+          <button class="btn btn--primary btn--block" type="submit" id="botao-pagar">
+            Continuar para o pagamento
+          </button>
+          <p class="field-hint" id="aviso-pagamento"></p>
+        </form>
+      </aside>
+    </div>
+
+    <section id="pedido-confirmado" hidden></section>
+  </div>
+</main>
+
+<!--#include rodape -->
+
+<script type="module" src="/js/pages/sacola.js"></script>
+</body>
+</html>

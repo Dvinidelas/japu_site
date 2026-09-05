@@ -1,0 +1,94 @@
+/* ===========================================================================
+   Morada do Japu — design tokens
+   Paleta e tipografia extraidas dos mockups da proposta de frontend.
+   Duas direcoes convivem: "Dossel" (escuro, sombra do cacau cabruca) para as
+   secoes narrativas, e o creme claro do almanaque para loja e leitura.
+   =========================================================================== */
+
+:root {
+  /* --- Cores de superficie --------------------------------------------- */
+  --c-cream:        #edefe6;  /* fundo principal dos slides             */
+  --c-cream-deep:   #e4e7d9;  /* faixas e caixas de destaque            */
+  --c-paper:        #f7f8f2;  /* cards, painel de produto               */
+  --c-white:        #ffffff;
+
+  /* --- Verdes ----------------------------------------------------------- */
+  --c-forest:       #1e3a24;  /* verde da marca, botoes solidos         */
+  --c-forest-deep:  #16281a;  /* hover                                   */
+  --c-canopy:       #14200f;  /* fundo da direcao A "Dossel"            */
+  --c-canopy-soft:  #1c2c17;  /* cards sobre o dossel                   */
+  --c-moss:         #3f5d3a;  /* linhas e barras do calendario          */
+  --c-sage:         #8a9a7b;  /* barras inativas, estados vazios        */
+
+  /* --- Ambar / dourado --------------------------------------------------- */
+  --c-gold:         #d9a02b;  /* CTA da direcao A, mes em promocao      */
+  --c-gold-bright:  #e8b13d;  /* hover do ambar                          */
+  --c-gold-soft:    #f0dfae;  /* selo "volta em outubro"                */
+
+  /* --- Texto ------------------------------------------------------------- */
+  --c-ink:          #1c2b1e;  /* titulos                                 */
+  --c-ink-soft:     #4a5a4c;  /* corpo de texto                          */
+  --c-ink-mute:     #74806f;  /* legendas, eyebrow, metadados            */
+  --c-ink-invert:   #f2f1e6;  /* texto sobre fundo escuro                */
+  --c-ink-invert-mute: #b9c2ac;
+
+  /* --- Semanticas -------------------------------------------------------- */
+  --c-in-stock:     #2f6b34;
+  --c-out-stock:    #8c6a2f;
+  --c-danger:       #9b3226;
+  --c-line:         #d3d7c6;  /* divisorias sobre o creme               */
+  --c-line-dark:    #2c3f28;  /* divisorias sobre o dossel              */
+
+  /* --- Tipografia -------------------------------------------------------- */
+  --f-display: "Playfair Display", "Iowan Old Style", "Palatino Linotype",
+               Palatino, Georgia, "Times New Roman", serif;
+  --f-sans:    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+               "Helvetica Neue", Arial, sans-serif;
+  --f-mono:    "IBM Plex Mono", ui-monospace, SFMono-Regular, "SF Mono",
+               Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* Escala tipografica fluida — o mockup precisa respirar no desktop e
+     continuar legivel no celular, que e de onde vem o trafego. */
+  --t-display-xl: clamp(2.6rem, 1.6rem + 4.4vw, 4.6rem);
+  --t-display-l:  clamp(2.1rem, 1.4rem + 3.1vw, 3.4rem);
+  --t-display-m:  clamp(1.7rem, 1.3rem + 1.9vw, 2.5rem);
+  --t-lead:       clamp(1.02rem, 0.96rem + 0.4vw, 1.22rem);
+  --t-body:       1rem;
+  --t-small:      0.875rem;
+  --t-micro:      0.75rem;
+
+  /* Rotulos em caixa alta e espacados, como nos eyebrows dos slides */
+  --track-label: 0.18em;
+
+  /* --- Espacamento e forma ------------------------------------------------ */
+  --sp-1: 0.25rem;  --sp-2: 0.5rem;   --sp-3: 0.75rem;  --sp-4: 1rem;
+  --sp-5: 1.5rem;   --sp-6: 2rem;     --sp-7: 3rem;     --sp-8: 4rem;
+  --sp-9: 6rem;
+
+  --r-sm: 4px;  --r-md: 8px;  --r-lg: 14px;  --r-pill: 999px;
+
+  --shadow-card: 0 1px 2px rgba(28, 43, 30, .06), 0 8px 24px rgba(28, 43, 30, .06);
+  --shadow-bar:  0 -2px 16px rgba(28, 43, 30, .12);
+  --shadow-pop:  0 12px 40px rgba(28, 43, 30, .18);
+
+  --wrap: 1180px;       /* largura de conteudo dos slides */
+  --wrap-narrow: 760px; /* colunas de leitura             */
+
+  --ease: cubic-bezier(.22, .61, .36, 1);
+  --dur: 180ms;
+
+  /* Altura da barra fixa de compra no celular — usada para dar respiro ao
+     rodape para que nada fique escondido embaixo dela. */
+  --buybar-h: 74px;
+}
+
+/* O usuario que pede menos movimento nao recebe nenhuma transicao. */
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur: 0ms; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

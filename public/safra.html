@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<!--#include head -->
+  <title>Calendário da safra — Morada do Japu</title>
+  <meta name="description" content="O calendário no centro: a loja mostra o ano inteiro e o que a mata está dando agora.">
+</head>
+<body>
+<!--#include cabecalho -->
+
+<main id="conteudo">
+  <section class="section--tight">
+    <div class="wrap">
+      <p class="eyebrow eyebrow--mute">Direção B · o que a mata está dando agora</p>
+      <h1>Almanaque da safra</h1>
+      <p class="lead">
+        Compota só existe enquanto a fruta está no pé. Em vez de esconder isso
+        atrás de um botão cinza, a loja mostra o ano inteiro e deixa a pessoa
+        se programar.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="season" id="calendario" aria-busy="true">
+        <div class="season-panel">
+          <h2>Calendário da safra</h2>
+          <div class="month-tabs" role="tablist" aria-label="Mês da safra" id="abas-mes"></div>
+          <div class="season-rows" id="linhas-safra"></div>
+        </div>
+        <div class="season-feature" id="destaque-mes"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Na prateleira hoje</h2>
+        <span class="filter-count" id="contagem-prateleira"></span>
+      </div>
+      <div class="product-grid" id="prateleira" aria-busy="true"></div>
+    </div>
+  </section>
+
+  <!-- Receita da semana: marca o que falta e manda tudo de uma vez -->
+  <section class="section--tight" id="receita">
+    <div class="wrap">
+      <div class="recipe" id="bloco-receita" aria-busy="true"></div>
+    </div>
+  </section>
+</main>
+
+<!--#include rodape -->
+
+<script type="module" src="/js/pages/safra.js"></script>
+</body>
+</html>

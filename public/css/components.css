@@ -1,0 +1,745 @@
+/* ===========================================================================
+   Componentes — cabecalho, cards, filtros, calendario, barra de compra,
+   sacola e formularios.
+   =========================================================================== */
+
+/* --- Botoes --------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-5);
+  border: 1px solid transparent;
+  border-radius: var(--r-pill);
+  font-size: var(--t-small); font-weight: 600;
+  text-decoration: none; white-space: nowrap;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease),
+              border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.btn:active { transform: translateY(1px); }
+
+.btn--primary { background: var(--c-forest); color: var(--c-ink-invert); }
+.btn--primary:hover { background: var(--c-forest-deep); }
+
+.btn--gold { background: var(--c-gold); color: var(--c-canopy); }
+.btn--gold:hover { background: var(--c-gold-bright); }
+
+.btn--ghost { background: transparent; color: inherit; border-color: currentColor; }
+.btn--ghost:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
+
+.btn--outline {
+  background: var(--c-white); color: var(--c-ink); border-color: var(--c-line);
+}
+.btn--outline:hover { border-color: var(--c-forest); }
+
+.btn--block { width: 100%; }
+.btn--sm { padding: var(--sp-2) var(--sp-4); font-size: var(--t-micro); }
+
+.btn[disabled], .btn[aria-disabled="true"] {
+  background: var(--c-line); color: var(--c-ink-mute); border-color: transparent;
+  pointer-events: none;
+}
+
+/* --- Cabecalho e navegacao ------------------------------------------------ */
+
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  background: color-mix(in srgb, var(--c-cream) 92%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--c-line);
+}
+.canopy-header {
+  background: color-mix(in srgb, var(--c-canopy) 92%, transparent);
+  border-bottom-color: var(--c-line-dark);
+  color: var(--c-ink-invert);
+}
+
+.header-bar {
+  display: flex; align-items: center; gap: var(--sp-5);
+  min-height: 68px;
+}
+
+.brand {
+  font-family: var(--f-sans);
+  font-weight: 800; font-size: 0.95rem;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  text-decoration: none; white-space: nowrap;
+}
+
+.nav { display: flex; align-items: center; gap: var(--sp-5); margin-left: auto; }
+.nav-list { display: flex; align-items: center; gap: var(--sp-5); list-style: none; margin: 0; padding: 0; }
+
+.nav-link {
+  position: relative;
+  font-size: var(--t-small);
+  text-decoration: none;
+  padding-block: var(--sp-2);
+  color: inherit;
+  opacity: .82;
+}
+.nav-link:hover { opacity: 1; }
+.nav-link[aria-current="page"] { opacity: 1; font-weight: 600; }
+.nav-link[aria-current="page"]::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0;
+  height: 2px; background: var(--c-gold);
+}
+
+/* Submenu de categorias — abre no hover no desktop e no clique/teclado
+   em qualquer lugar, para nao deixar o teclado de fora. */
+.nav-item { position: relative; }
+.nav-toggle {
+  display: inline-flex; align-items: center; gap: var(--sp-1);
+  background: none; border: 0; padding: var(--sp-2) 0;
+  font-size: var(--t-small); color: inherit; opacity: .82;
+}
+.nav-toggle:hover { opacity: 1; }
+.nav-toggle svg { transition: transform var(--dur) var(--ease); }
+.nav-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+
+.submenu {
+  position: absolute; top: calc(100% + 8px); left: calc(-1 * var(--sp-4));
+  min-width: 232px; padding: var(--sp-3);
+  background: var(--c-paper); color: var(--c-ink);
+  border: 1px solid var(--c-line); border-radius: var(--r-lg);
+  box-shadow: var(--shadow-pop);
+  list-style: none; margin: 0;
+  display: none;
+}
+.submenu[data-open="true"] { display: block; }
+.submenu a {
+  display: flex; justify-content: space-between; gap: var(--sp-4);
+  padding: var(--sp-2) var(--sp-3); border-radius: var(--r-md);
+  font-size: var(--t-small); text-decoration: none;
+}
+.submenu a:hover { background: var(--c-cream-deep); }
+.submenu .submenu-count { font-family: var(--f-mono); font-size: var(--t-micro); color: var(--c-ink-mute); }
+
+/* Botao da sacola com contador */
+.cart-btn {
+  position: relative; display: inline-flex; align-items: center; gap: var(--sp-2);
+  background: none; border: 0; padding: var(--sp-2);
+  font-size: var(--t-small); color: inherit;
+}
+.cart-count {
+  display: grid; place-items: center;
+  min-width: 22px; height: 22px; padding-inline: 6px;
+  background: var(--c-gold); color: var(--c-canopy);
+  border-radius: var(--r-pill);
+  font-family: var(--f-mono); font-size: var(--t-micro); font-weight: 600;
+}
+.cart-count[data-empty="true"] { background: var(--c-line); color: var(--c-ink-mute); }
+
+/* Hamburger — so aparece no celular */
+.nav-burger { display: none; background: none; border: 0; padding: var(--sp-2); color: inherit; }
+
+@media (max-width: 860px) {
+  .nav-burger { display: block; margin-left: auto; order: 3; }
+  .nav {
+    order: 4; width: 100%; margin-left: 0;
+    flex-direction: column; align-items: stretch; gap: 0;
+    max-height: 0; overflow: hidden;
+    transition: max-height var(--dur) var(--ease);
+  }
+  .nav[data-open="true"] { max-height: 70vh; overflow-y: auto; padding-bottom: var(--sp-4); }
+  .nav-list { flex-direction: column; align-items: stretch; gap: 0; }
+  .nav-link, .nav-toggle { padding: var(--sp-3) 0; border-bottom: 1px solid var(--c-line); width: 100%; }
+  .nav-link[aria-current="page"]::after { display: none; }
+  .submenu {
+    position: static; display: none; box-shadow: none; border: 0;
+    background: transparent; padding: var(--sp-2) var(--sp-4);
+  }
+  .submenu[data-open="true"] { display: block; }
+  .canopy-header .submenu a:hover { background: var(--c-canopy-soft); }
+  .header-bar { flex-wrap: wrap; gap: var(--sp-3); }
+  .cart-btn { order: 2; margin-left: auto; }
+}
+
+/* --- Filtros por categoria (as pilulas do mockup) ------------------------- */
+
+.filters {
+  display: flex; align-items: center; gap: var(--sp-3);
+  flex-wrap: wrap;
+  padding-block: var(--sp-4);
+}
+.chip {
+  padding: var(--sp-2) var(--sp-4);
+  background: var(--c-white); color: var(--c-ink);
+  border: 1px solid var(--c-line); border-radius: var(--r-pill);
+  font-size: var(--t-small);
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease),
+              border-color var(--dur) var(--ease);
+}
+.chip:hover { border-color: var(--c-forest); }
+.chip[aria-pressed="true"] {
+  background: var(--c-forest); color: var(--c-ink-invert); border-color: var(--c-forest);
+  font-weight: 600;
+}
+.filter-count {
+  margin-left: auto;
+  font-family: var(--f-mono); font-size: var(--t-micro);
+  color: var(--c-ink-mute); letter-spacing: .06em;
+}
+
+/* --- Grade e card de produto --------------------------------------------- */
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: var(--sp-5);
+}
+
+.card {
+  display: flex; flex-direction: column;
+  background: var(--c-paper);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.card:hover { transform: translateY(-2px); box-shadow: var(--shadow-card); }
+
+.card-media {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: var(--c-cream-deep);
+  display: grid; place-items: center;
+  padding: var(--sp-5);
+}
+.card-media img, .card-media svg { width: 68%; height: auto; }
+
+/* Selo do canto: safra, mais vendido, volta em outubro, promo */
+.badge {
+  position: absolute; top: 0; left: 0;
+  padding: 5px var(--sp-3);
+  font-family: var(--f-mono); font-size: 10px;
+  letter-spacing: var(--track-label); text-transform: uppercase;
+  font-weight: 600;
+}
+.badge--safra   { background: #5b3a25; color: #f4e9dd; }
+.badge--top     { background: var(--c-forest); color: var(--c-ink-invert); }
+.badge--soon    { background: var(--c-gold-soft); color: var(--c-out-stock); }
+.badge--promo   { background: var(--c-gold); color: var(--c-canopy); }
+
+.card-body { display: flex; flex-direction: column; flex: 1; padding: var(--sp-4); gap: var(--sp-2); }
+
+.card-kicker {
+  font-family: var(--f-mono); font-size: 10px;
+  letter-spacing: var(--track-label); text-transform: uppercase;
+  color: var(--c-ink-mute);
+}
+.card-title { font-family: var(--f-sans); font-size: 1rem; font-weight: 700; margin: 0; line-height: 1.3; }
+.card-desc { font-size: var(--t-small); color: var(--c-ink-soft); margin: 0; }
+
+.card-prices { display: flex; align-items: baseline; gap: var(--sp-3); margin-top: auto; padding-top: var(--sp-3); }
+.card-actions { display: flex; align-items: center; gap: var(--sp-3); }
+.card-actions .btn { flex: 1; }
+
+/* Seletor de quantidade */
+.qty {
+  display: inline-flex; align-items: center;
+  border: 1px solid var(--c-line); border-radius: var(--r-pill);
+  background: var(--c-white);
+}
+.qty button {
+  width: 32px; height: 34px;
+  background: none; border: 0; color: var(--c-ink-soft);
+  font-size: 1rem; line-height: 1;
+}
+.qty button:hover:not(:disabled) { color: var(--c-forest); }
+.qty button:disabled { opacity: .35; }
+.qty input {
+  width: 34px; height: 34px; padding: 0;
+  border: 0; background: none; text-align: center;
+  font-family: var(--f-mono); font-size: var(--t-small);
+  -moz-appearance: textfield;
+}
+.qty input::-webkit-outer-spin-button, .qty input::-webkit-inner-spin-button {
+  -webkit-appearance: none; margin: 0;
+}
+
+/* Cards sobre o fundo escuro da direcao A */
+.canopy .card { background: var(--c-canopy-soft); border-color: var(--c-line-dark); }
+.canopy .card-media { background: color-mix(in srgb, var(--c-canopy) 70%, #2b3d22); }
+.canopy .card-title { color: var(--c-ink-invert); }
+.canopy .card-desc, .canopy .card-kicker { color: var(--c-ink-invert-mute); }
+.canopy .qty { background: transparent; border-color: var(--c-line-dark); }
+.canopy .qty button, .canopy .qty input { color: var(--c-ink-invert); }
+
+/* --- Calendario da safra (direcao B) -------------------------------------- */
+
+.season { display: grid; grid-template-columns: 1.15fr .85fr; gap: 0; border: 1px solid var(--c-line); border-radius: var(--r-md); overflow: hidden; }
+@media (max-width: 900px) { .season { grid-template-columns: 1fr; } }
+
+.season-panel { padding: clamp(var(--sp-5), 4vw, var(--sp-7)); background: var(--c-paper); }
+
+.month-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: var(--sp-5); }
+.month-tab {
+  min-width: 42px; padding: 6px 8px;
+  background: var(--c-cream-deep); border: 0; border-radius: var(--r-sm);
+  font-family: var(--f-mono); font-size: 11px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--c-ink-soft);
+}
+.month-tab:hover { background: var(--c-line); }
+.month-tab[aria-selected="true"] { background: var(--c-forest); color: var(--c-ink-invert); font-weight: 600; }
+.month-tab[data-returning="true"] { background: var(--c-gold-soft); color: var(--c-out-stock); }
+
+.season-rows { display: grid; gap: var(--sp-3); }
+.season-row {
+  display: grid; grid-template-columns: minmax(120px, 1fr) 2fr auto;
+  align-items: center; gap: var(--sp-4);
+  font-size: var(--t-small);
+}
+.season-row-name { font-weight: 600; color: var(--c-ink); }
+.season-bar { position: relative; height: 9px; border-radius: var(--r-pill); background: var(--c-cream-deep); overflow: hidden; }
+.season-bar span {
+  position: absolute; top: 0; bottom: 0;
+  background: var(--c-moss); border-radius: var(--r-pill);
+}
+.season-bar span[data-state="returning"] { background: var(--c-gold); }
+.season-bar span[data-peak="true"] { background: var(--c-forest); }
+.season-status {
+  font-family: var(--f-mono); font-size: 10px;
+  letter-spacing: var(--track-label); text-transform: uppercase;
+  color: var(--c-ink-mute); white-space: nowrap;
+}
+.season-status[data-state="available"] { color: var(--c-in-stock); }
+.season-status[data-state="returning"] { color: var(--c-out-stock); }
+@media (max-width: 620px) {
+  .season-row { grid-template-columns: 1fr auto; }
+  .season-bar { grid-column: 1 / -1; }
+}
+
+/* Destaque do mes, com a foto da mata ao fundo */
+.season-feature {
+  position: relative; display: flex; flex-direction: column; justify-content: flex-end;
+  min-height: 320px; padding: clamp(var(--sp-5), 4vw, var(--sp-7));
+  color: var(--c-ink-invert);
+  background: var(--c-canopy);
+  isolation: isolate;
+}
+.season-feature::after {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(180deg, rgba(20,32,15,.25) 0%, rgba(20,32,15,.88) 72%);
+}
+.season-feature-art { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+.season-feature h3 { color: var(--c-ink-invert); margin-bottom: var(--sp-2); }
+.season-feature p { color: var(--c-ink-invert-mute); }
+.season-feature-buy { display: flex; align-items: center; gap: var(--sp-4); flex-wrap: wrap; }
+.season-feature .price { color: var(--c-ink-invert); font-size: 1.2rem; }
+
+/* --- Receita da semana (lista com caixas de selecao) ---------------------- */
+
+.recipe { display: grid; grid-template-columns: 1fr 1.2fr; gap: 0; border: 1px solid var(--c-line); border-radius: var(--r-md); overflow: hidden; }
+@media (max-width: 860px) { .recipe { grid-template-columns: 1fr; } }
+.recipe-art { position: relative; min-height: 260px; overflow: hidden; }
+.recipe-art svg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  /* `slice` faz o desenho cobrir a coluna inteira em vez de deixar
+     sobra branca quando a proporcao da celula muda. */
+  object-fit: cover;
+}
+.recipe-body { padding: clamp(var(--sp-5), 4vw, var(--sp-7)); background: var(--c-paper); }
+
+.ingredient-list { display: grid; gap: var(--sp-2); margin: var(--sp-5) 0; }
+.ingredient {
+  display: flex; align-items: center; gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--c-white); border: 1px solid var(--c-line); border-radius: var(--r-sm);
+  font-size: var(--t-small); cursor: pointer;
+}
+.ingredient:hover { border-color: var(--c-forest); }
+.ingredient input { width: 17px; height: 17px; accent-color: var(--c-forest); margin: 0; }
+.ingredient .price { margin-left: auto; font-size: var(--t-small); }
+.ingredient--out { opacity: .55; cursor: not-allowed; }
+
+/* --- Pagina de produto ---------------------------------------------------- */
+
+.product-layout { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(var(--sp-5), 5vw, var(--sp-8)); align-items: start; }
+@media (max-width: 860px) { .product-layout { grid-template-columns: 1fr; } }
+
+.product-gallery {
+  position: relative;
+  background: var(--c-cream-deep);
+  border-radius: var(--r-md);
+  aspect-ratio: 4 / 5;
+  display: grid; place-items: center; padding: var(--sp-7);
+}
+.product-gallery svg, .product-gallery img { width: 62%; }
+
+/* Caixa de frete calculado antes do checkout */
+.freight {
+  border-left: 3px solid var(--c-forest);
+  background: var(--c-cream-deep);
+  padding: var(--sp-4);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  font-size: var(--t-small);
+}
+.freight-form { display: flex; gap: var(--sp-2); margin-top: var(--sp-3); }
+.freight-form input {
+  flex: 1; min-width: 0;
+  padding: var(--sp-3);
+  border: 1px solid var(--c-line); border-radius: var(--r-sm);
+  background: var(--c-white);
+  font-family: var(--f-mono); font-size: var(--t-small);
+}
+.freight-result { margin-top: var(--sp-3); display: grid; gap: var(--sp-2); }
+.freight-option { display: flex; justify-content: space-between; gap: var(--sp-3); }
+.freight-option strong { font-family: var(--f-mono); }
+
+/* Barra fixa de compra no celular — o item 5 da proposta */
+.buy-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
+  display: none;
+  align-items: center; gap: var(--sp-4);
+  padding: var(--sp-3) var(--sp-4);
+  padding-bottom: calc(var(--sp-3) + env(safe-area-inset-bottom, 0px));
+  background: var(--c-white);
+  border-top: 1px solid var(--c-line);
+  box-shadow: var(--shadow-bar);
+}
+.buy-bar .btn { flex: 1; max-width: 220px; margin-left: auto; }
+.buy-bar-price { line-height: 1.2; }
+.buy-bar-price small { display: block; font-size: 11px; color: var(--c-ink-mute); font-family: var(--f-sans); }
+@media (max-width: 860px) {
+  .buy-bar { display: flex; }
+  body[data-buybar="true"] { padding-bottom: var(--buybar-h); }
+}
+/* `hidden` tem especificidade menor que `.buy-bar { display: flex }`, entao
+   sem o !important a barra reaparece em produto fora de safra. */
+.buy-bar[hidden] { display: none !important; }
+
+/* --- Sacola (gaveta lateral) ---------------------------------------------- */
+
+.drawer-backdrop {
+  position: fixed; inset: 0; z-index: 110;
+  background: rgba(20, 32, 15, .45);
+  opacity: 0; visibility: hidden;
+  transition: opacity var(--dur) var(--ease), visibility var(--dur) var(--ease);
+}
+.drawer-backdrop[data-open="true"] { opacity: 1; visibility: visible; }
+
+.drawer {
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 120;
+  width: min(420px, 100%);
+  display: flex; flex-direction: column;
+  background: var(--c-cream);
+  box-shadow: var(--shadow-pop);
+  transform: translateX(100%);
+  transition: transform var(--dur) var(--ease);
+}
+.drawer[data-open="true"] { transform: translateX(0); }
+
+.drawer-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--sp-5); border-bottom: 1px solid var(--c-line);
+}
+.drawer-head h2 { font-size: 1.4rem; margin: 0; }
+.drawer-close { background: none; border: 0; padding: var(--sp-2); color: var(--c-ink-soft); }
+
+.drawer-body { flex: 1; overflow-y: auto; padding: var(--sp-5); }
+.drawer-foot { padding: var(--sp-5); border-top: 1px solid var(--c-line); background: var(--c-paper); }
+
+.line-item { display: grid; grid-template-columns: 64px 1fr; gap: var(--sp-4); padding-block: var(--sp-4); border-bottom: 1px solid var(--c-line); }
+.line-item-media { background: var(--c-cream-deep); border-radius: var(--r-sm); display: grid; place-items: center; padding: var(--sp-2); }
+.line-item-media svg { width: 100%; }
+.line-item h3 { font-family: var(--f-sans); font-size: var(--t-small); font-weight: 700; margin: 0 0 var(--sp-1); }
+.line-item-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); margin-top: var(--sp-3); }
+.line-remove { background: none; border: 0; padding: 0; font-size: var(--t-micro); color: var(--c-ink-mute); text-decoration: underline; }
+.line-remove:hover { color: var(--c-danger); }
+
+.totals { display: grid; gap: var(--sp-2); margin-bottom: var(--sp-4); font-size: var(--t-small); }
+.totals-row { display: flex; justify-content: space-between; gap: var(--sp-4); }
+.totals-row--grand { padding-top: var(--sp-3); border-top: 1px solid var(--c-line); font-size: 1rem; font-weight: 700; }
+
+.empty-state { text-align: center; padding: var(--sp-8) var(--sp-4); color: var(--c-ink-mute); }
+
+/* --- Modal (lista de espera) ---------------------------------------------- */
+
+.modal {
+  position: fixed; inset: 0; z-index: 130;
+  display: none; place-items: center; padding: var(--sp-4);
+  background: rgba(20, 32, 15, .5);
+}
+.modal[data-open="true"] { display: grid; }
+.modal-card {
+  width: min(460px, 100%);
+  background: var(--c-cream); border-radius: var(--r-lg);
+  padding: clamp(var(--sp-5), 5vw, var(--sp-7));
+  box-shadow: var(--shadow-pop);
+}
+.modal-card h2 { font-size: 1.6rem; }
+
+.field { display: grid; gap: var(--sp-2); margin-bottom: var(--sp-4); }
+.field label { font-size: var(--t-small); font-weight: 600; }
+.field input {
+  padding: var(--sp-3) var(--sp-4);
+  border: 1px solid var(--c-line); border-radius: var(--r-sm);
+  background: var(--c-white); font-size: var(--t-small);
+}
+.field input:user-invalid { border-color: var(--c-danger); }
+.field-hint { font-size: var(--t-micro); color: var(--c-ink-mute); }
+.field-error { font-size: var(--t-micro); color: var(--c-danger); }
+.field-error:empty { display: none; }
+
+/* --- Avisos temporarios (toast) ------------------------------------------- */
+
+.toast-stack {
+  position: fixed; left: 50%; bottom: var(--sp-5); z-index: 140;
+  transform: translateX(-50%);
+  display: grid; gap: var(--sp-2); width: min(420px, calc(100% - 2rem));
+  pointer-events: none;
+}
+.toast {
+  padding: var(--sp-3) var(--sp-5);
+  background: var(--c-forest); color: var(--c-ink-invert);
+  border-radius: var(--r-pill);
+  font-size: var(--t-small); text-align: center;
+  box-shadow: var(--shadow-pop);
+  animation: toast-in 220ms var(--ease);
+}
+.toast[data-tone="error"] { background: var(--c-danger); }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } }
+@media (max-width: 860px) { .toast-stack { bottom: calc(var(--buybar-h) + var(--sp-4)); } }
+
+/* --- Rodape --------------------------------------------------------------- */
+
+.site-footer {
+  border-top: 1px solid var(--c-line);
+  padding-block: var(--sp-7) var(--sp-6);
+  margin-top: var(--sp-8);
+}
+.footer-grid { display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: var(--sp-6); }
+@media (max-width: 800px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+.footer-grid h3 { font-family: var(--f-mono); font-size: var(--t-micro); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--c-ink-mute); margin-bottom: var(--sp-3); }
+.footer-grid ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-2); }
+.footer-grid a { font-size: var(--t-small); text-decoration: none; color: var(--c-ink-soft); }
+.footer-grid a:hover { color: var(--c-ink); }
+.footer-legal {
+  display: flex; justify-content: space-between; gap: var(--sp-4); flex-wrap: wrap;
+  margin-top: var(--sp-7); padding-top: var(--sp-4); border-top: 1px solid var(--c-line);
+  font-family: var(--f-mono); font-size: 10px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--c-ink-mute);
+}
+
+/* --- Faixa de confianca (os 5 selos da direcao A) ------------------------- */
+
+.trust-strip {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  border-block: 1px solid var(--c-line-dark);
+}
+.trust-item { display: flex; gap: var(--sp-3); padding: var(--sp-4) var(--sp-5); border-right: 1px solid var(--c-line-dark); }
+.trust-item:last-child { border-right: 0; }
+.trust-item strong { display: block; font-size: var(--t-small); }
+.trust-item span { font-size: var(--t-micro); color: var(--c-ink-invert-mute); }
+
+/* --- Grade de "hoje x proposta" (o slide comparativo) --------------------- */
+
+.compare-label {
+  font-family: var(--f-mono); font-size: var(--t-micro);
+  letter-spacing: var(--track-label); text-transform: uppercase;
+  padding: var(--sp-3) var(--sp-5);
+}
+.compare-label--now { background: var(--c-line); color: var(--c-ink-soft); }
+.compare-label--new { background: var(--c-forest); color: var(--c-ink-invert); }
+
+/* --- Home: heroi do dossel ------------------------------------------------ */
+
+.hero { position: relative; isolation: isolate; overflow: hidden; }
+.hero-art { position: absolute; inset: 0; z-index: -2; }
+.hero-art svg { width: 100%; height: 100%; object-fit: cover; }
+.hero::after {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(100deg, rgba(20,32,15,.94) 0%, rgba(20,32,15,.78) 55%, rgba(20,32,15,.55) 100%);
+}
+.hero-inner {
+  position: relative;
+  padding-block: clamp(var(--sp-8), 9vw, 7.5rem);
+  max-width: 100%;
+}
+.hero-inner h1 { max-width: 16ch; }
+.hero-inner .lead { color: var(--c-ink-invert-mute); max-width: 46ch; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-top: var(--sp-6); }
+
+.hero-seal {
+  position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+  display: grid; place-items: center; align-content: center; gap: 2px;
+  width: 148px; height: 148px; border-radius: 50%;
+  border: 1px solid var(--c-gold);
+  color: var(--c-gold); text-align: center;
+}
+.hero-seal-word { font-family: var(--f-display); font-size: 1.25rem; }
+.hero-seal-sub {
+  font-family: var(--f-mono); font-size: 9px;
+  letter-spacing: var(--track-label); text-transform: uppercase;
+  color: var(--c-ink-invert-mute);
+}
+@media (max-width: 900px) { .hero-seal { display: none; } }
+
+.section-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--sp-4); flex-wrap: wrap; margin-bottom: var(--sp-6);
+}
+.section-head h2 { margin: 0; }
+.section-link { font-size: var(--t-small); color: var(--c-gold); text-decoration: none; }
+.section-link:hover { text-decoration: underline; }
+
+.quote-band {
+  position: relative; isolation: isolate; overflow: hidden;
+  padding-block: clamp(var(--sp-7), 7vw, var(--sp-9));
+  background: linear-gradient(180deg, #2a3f22 0%, #1c2c17 100%);
+  color: var(--c-ink-invert);
+}
+.quote-band blockquote { margin: 0; max-width: 44ch; }
+.quote-band p {
+  font-family: var(--f-display); font-size: var(--t-display-m);
+  line-height: 1.25; color: var(--c-ink-invert); margin-bottom: var(--sp-4);
+}
+.quote-band cite {
+  font-family: var(--f-mono); font-size: 10px; font-style: normal;
+  letter-spacing: var(--track-label); text-transform: uppercase;
+  color: var(--c-ink-invert-mute);
+}
+
+.season-teaser { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(var(--sp-5), 5vw, var(--sp-8)); align-items: center; }
+@media (max-width: 800px) { .season-teaser { grid-template-columns: 1fr; } }
+.season-teaser-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-2); }
+.season-teaser-list li {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4);
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--c-paper); border: 1px solid var(--c-line); border-radius: var(--r-sm);
+  font-size: var(--t-small);
+}
+
+/* --- Migalhas de pao ------------------------------------------------------ */
+.breadcrumb {
+  font-family: var(--f-mono); font-size: var(--t-micro);
+  letter-spacing: .06em; color: var(--c-ink-mute);
+  margin-bottom: var(--sp-5);
+}
+.breadcrumb a { text-decoration: none; }
+.breadcrumb a:hover { color: var(--c-ink); }
+.breadcrumb span { margin-inline: 4px; }
+
+/* --- Painel de compra da pagina de produto -------------------------------- */
+.product-panel { display: grid; gap: var(--sp-4); }
+.product-panel h1 { font-size: var(--t-display-l); margin-bottom: var(--sp-2); }
+.product-buy { display: flex; align-items: center; gap: var(--sp-4); flex-wrap: wrap; }
+.product-buy .btn { flex: 1; min-width: 180px; }
+
+.highlight-list { display: flex; flex-wrap: wrap; gap: var(--sp-2); list-style: none; margin: 0; padding: 0; }
+.highlight-list li {
+  padding: 4px var(--sp-3);
+  background: var(--c-cream-deep); border-radius: var(--r-pill);
+  font-size: var(--t-micro); color: var(--c-ink-soft);
+}
+
+.out-of-stock-note {
+  padding: var(--sp-4);
+  background: var(--c-gold-soft); border-radius: var(--r-sm);
+  font-size: var(--t-small); color: var(--c-out-stock);
+}
+
+/* --- Fechamento de pedido -------------------------------------------------- */
+.checkout-layout { display: grid; grid-template-columns: 1.3fr .85fr; gap: clamp(var(--sp-5), 4vw, var(--sp-7)); align-items: start; }
+@media (max-width: 880px) { .checkout-layout { grid-template-columns: 1fr; } }
+
+.checkout-side {
+  padding: clamp(var(--sp-5), 4vw, var(--sp-6));
+  background: var(--c-paper);
+  border: 1px solid var(--c-line); border-radius: var(--r-md);
+  position: sticky; top: 88px;
+}
+@media (max-width: 880px) { .checkout-side { position: static; } }
+.checkout-side h2 { font-size: 1.25rem; margin-bottom: var(--sp-4); }
+.checkout-side h2 + * { margin-top: 0; }
+.checkout-side > form > h2 ~ h2 { margin-top: var(--sp-6); }
+.checkout-side h2 + * { margin-top: 0; }
+
+.ship-option {
+  display: flex; align-items: center; gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--c-white); border: 1px solid var(--c-line);
+  border-radius: var(--r-sm); cursor: pointer; font-size: var(--t-small);
+}
+.ship-option:has(input:checked) { border-color: var(--c-forest); background: var(--c-cream-deep); }
+.ship-option input { accent-color: var(--c-forest); }
+.ship-option .price { margin-left: auto; }
+
+.order-done {
+  margin-top: var(--sp-6); padding: clamp(var(--sp-5), 4vw, var(--sp-7));
+  background: var(--c-paper); border: 1px solid var(--c-line); border-radius: var(--r-md);
+}
+.order-ref {
+  font-family: var(--f-mono); font-size: 1.3rem; font-weight: 600;
+  letter-spacing: .04em; color: var(--c-forest);
+}
+
+/* --- Pagina da proposta ---------------------------------------------------- */
+
+.change-list { list-style: none; margin: 0; padding: 0; counter-reset: mudanca; }
+.change-list li {
+  display: grid; grid-template-columns: 56px 1fr; gap: var(--sp-4);
+  padding-block: var(--sp-5);
+  border-top: 1px solid var(--c-line);
+}
+.change-list li:last-child { border-bottom: 1px solid var(--c-line); }
+.change-num {
+  font-family: var(--f-display); font-size: 2.2rem; line-height: 1;
+  color: var(--c-gold);
+}
+.change-list h2 { font-family: var(--f-sans); font-size: 1.12rem; font-weight: 700; margin-bottom: var(--sp-2); }
+.change-list p { margin-bottom: var(--sp-2); font-size: var(--t-small); }
+
+.compare { border: 1px solid var(--c-line); border-radius: var(--r-md); overflow: hidden; margin-top: var(--sp-5); }
+.compare .product-grid { padding: var(--sp-5); background: var(--c-paper); }
+.compare .filters { padding-inline: var(--sp-5); background: var(--c-paper); }
+
+/* O card "de hoje": imagem solta, titulo corrido, preco em vermelho e um
+   botao cinza quando esgota — o estado que a proposta substitui. */
+.product-grid--legacy { background: var(--c-white); }
+.legacy-card { text-align: center; font-size: var(--t-small); }
+.legacy-card .legacy-media {
+  aspect-ratio: 1; background: #ececec; display: grid; place-items: center;
+  padding: var(--sp-5); margin-bottom: var(--sp-3);
+}
+.legacy-card .legacy-media svg { width: 62%; }
+.legacy-name { color: var(--c-ink-soft); margin-bottom: var(--sp-2); }
+.legacy-price { color: #c0392b; margin-bottom: var(--sp-3); display: block; }
+.legacy-btn {
+  display: block; width: 100%; padding: var(--sp-3);
+  background: #3d7a3d; color: #fff; border: 0;
+  font-size: var(--t-small);
+}
+.legacy-btn[data-esgotado] { background: #d5d5d5; color: #8d8d8d; }
+/* A grade "hoje" e so referencia visual: nao deve receber clique. */
+.product-grid--legacy { pointer-events: none; }
+
+.callout {
+  padding: var(--sp-5);
+  background: var(--c-cream-deep); border-radius: var(--r-sm);
+  font-size: var(--t-small); color: var(--c-ink-soft);
+}
+.callout strong { color: var(--c-ink); }
+
+
+/* Cabecalho escuro nas paginas que abrem com o heroi do dossel. */
+body[data-header="canopy"] .site-header {
+  background: color-mix(in srgb, var(--c-canopy) 92%, transparent);
+  border-bottom-color: var(--c-line-dark);
+  color: var(--c-ink-invert);
+}
+body[data-header="canopy"] .submenu { color: var(--c-ink); }
+
+/* Sacola vazia sobre o cabeçalho escuro: o cinza claro do estado vazio some
+   no fundo do dossel, então ali ele vira contorno. */
+body[data-header="canopy"] .cart-count[data-empty="true"] {
+  background: transparent;
+  color: var(--c-ink-invert-mute);
+  box-shadow: inset 0 0 0 1px var(--c-line-dark);
+}
+
+
+/* O bloco de alternativas da lista de espera precisa respirar do botao. */
+.modal-card form + .stack { margin-top: var(--sp-5); }
+.modal-card form + .stack .btn { margin-top: var(--sp-2); }

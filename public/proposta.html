@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<!--#include head -->
+  <title>A proposta de frontend — Morada do Japu</title>
+  <meta name="description" content="Cinco mudanças que atacam onde a venda se perde hoje, com o antes e o depois do card de produto.">
+</head>
+<body>
+<!--#include cabecalho -->
+
+<main id="conteudo">
+  <section class="section--tight">
+    <div class="wrap-narrow">
+      <p class="eyebrow eyebrow--mute">Resumo</p>
+      <h1>O que muda na prática</h1>
+      <p class="lead">Cinco mudanças que atacam onde a venda se perde hoje.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap-narrow">
+      <ol class="change-list">
+        <li>
+          <span class="change-num" aria-hidden="true">1</span>
+          <div>
+            <h2>A floresta aparece antes do preço</h2>
+            <p>Quem chega entende em 3 segundos o que é agrofloresta, de onde vem e por que confiar.</p>
+            <a class="section-link" href="/">Ver na home →</a>
+          </div>
+        </li>
+        <li>
+          <span class="change-num" aria-hidden="true">2</span>
+          <div>
+            <h2>Catálogo organizado por categoria</h2>
+            <p>Cacau, cupuaçu, desidratados, compotas e kits — em vez de 14 produtos numa lista só.</p>
+            <a class="section-link" href="/loja">Ver na loja →</a>
+          </div>
+        </li>
+        <li>
+          <span class="change-num" aria-hidden="true">3</span>
+          <div>
+            <h2>Esgotado vira lista de espera</h2>
+            <p>Os 4 produtos fora de safra passam a capturar e-mail e sugerir alternativa, em vez de botão cinza.</p>
+            <a class="section-link" href="/produto/compota-de-jabuticaba-280g">Ver um exemplo →</a>
+          </div>
+        </li>
+        <li>
+          <span class="change-num" aria-hidden="true">4</span>
+          <div>
+            <h2>Frete calculado antes do checkout</h2>
+            <p>A objeção número um de comida enviada de Ilhéus deixa de ser surpresa na última tela.</p>
+            <a class="section-link" href="/produto/manteiga-de-cupuacu-200g">Calcular um frete →</a>
+          </div>
+        </li>
+        <li>
+          <span class="change-num" aria-hidden="true">5</span>
+          <div>
+            <h2>Compra de um toque no celular</h2>
+            <p>Barra fixa com preço e botão — é de onde vem o tráfego do Instagram e do WhatsApp.</p>
+            <a class="section-link" href="/produto/nibs-de-cacau-150g">Abrir no celular →</a>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Antes e depois do card de produto -->
+  <section class="section--tight">
+    <div class="wrap">
+      <p class="eyebrow eyebrow--mute">Antes e depois</p>
+      <h2>O card de produto</h2>
+      <p class="lead">Mesmo produto, mesmo preço — com a informação que faz a pessoa escolher.</p>
+
+      <div class="compare">
+        <p class="compare-label compare-label--now">Hoje</p>
+        <div class="product-grid product-grid--legacy" id="grade-antiga"></div>
+
+        <p class="compare-label compare-label--new">Proposta</p>
+        <div class="filters" id="filtros-demo" aria-hidden="true"></div>
+        <div class="product-grid" id="grade-nova"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="wrap-narrow">
+      <div class="callout">
+        <strong>Quer navegar a proposta inteira?</strong>
+        Abre no celular, dá para clicar, comparar o antes e o depois e ver as
+        duas direções completas — <a href="/">Dossel</a> na home e
+        <a href="/safra">Almanaque da safra</a> no calendário.
+      </div>
+    </div>
+  </section>
+</main>
+
+<!--#include rodape -->
+
+<script type="module" src="/js/pages/proposta.js"></script>
+</body>
+</html>
