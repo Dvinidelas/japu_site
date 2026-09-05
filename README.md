@@ -11,35 +11,6 @@ npm run dev                 # http://localhost:3000
 npm run test:all            # 38 testes de API/segurança + 30 cenários no navegador
 ```
 
-## Sobre a plataforma atual
-
-O site em produção hoje roda em **Wix** — as URLs de produto no formato
-`/product-page/<slug>` são a assinatura do Wix Stores. Isso importa para o
-planejamento:
-
-- O Wix não aceita substituir o frontend por HTML/CSS/JS próprios. O que ele
-  permite é personalização via **Velo** (JavaScript), limitada aos componentes
-  do editor.
-- Vários itens da proposta — calendário de safra, barra fixa de compra, filtro
-  por categoria com contagem ao vivo, lista de espera com alternativa — não
-  cabem nessa limitação sem virar gambiarra.
-- O Wix Stores também não expõe o cálculo de frete antes do checkout do jeito
-  que a proposta pede.
-
-Por isso este repositório é uma **loja autônoma**, em JavaScript puro no
-navegador e Node no servidor: roda em qualquer hospedagem, não depende de
-plataforma, e o pagamento direto passa a ser possível (no Wix, o gateway é
-sempre o do Wix, com a taxa dele).
-
-Migrar significa apontar o domínio para esta aplicação. O conteúdo — produtos,
-preços, textos — está todo em `server/data/catalog.js`, um arquivo só.
-
-> Observação: o ambiente onde este código foi escrito bloqueia o acesso de rede
-> a `moradadojapu.com.br`, então a inspeção do site atual foi feita pela
-> estrutura de URLs e pelos dados visíveis nos slides da proposta. Nomes,
-> preços e textos vieram dos mockups; conferir contra o catálogo real antes de
-> publicar.
-
 ## Os cinco pontos da proposta, e onde cada um vive
 
 | # | Mudança | Implementação |
