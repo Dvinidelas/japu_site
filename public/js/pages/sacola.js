@@ -6,7 +6,7 @@
  * recalculados em /api/checkout/session antes de qualquer cobranca.
  */
 import { api, brl } from '../api.js';
-import { boot, $, el, toast } from '../ui.js';
+import { boot, $, el, toast, setChildren } from '../ui.js';
 import { artFor } from '../art.js';
 import { cart } from '../cart.js';
 
@@ -23,12 +23,10 @@ const campoCep = $('#cep');
 
 let cotacao = null;
 let opcaoEscolhida = 'economico';
-let configPublica = { paymentEnabled: false };
 
 /* --- Configuracao publica (nunca traz segredo) ---------------------------- */
 api.config()
   .then((cfg) => {
-    configPublica = cfg;
     $('#aviso-pagamento').textContent = cfg.paymentEnabled
       ? 'Pagamento processado pelo gateway. Seus dados de cartão não passam por este site.'
       : 'O pagamento direto no site ainda não está ativo — você recebe um código para finalizar pelo WhatsApp.';
@@ -132,7 +130,7 @@ function renderTotais(snapshot) {
   const frete = cotacao?.options.find((o) => o.id === opcaoEscolhida) ?? null;
   const subtotal = snapshot.subtotalCents ?? 0;
 
-  totais.replaceChildren(
+  setChildren(totais,
     el('div', { class: 'totals-row' }, [
       el('span', { text: `Subtotal (${snapshot.itemCount ?? 0} ${snapshot.itemCount === 1 ? 'item' : 'itens'})` }),
       el('span', { class: 'price', text: brl(subtotal) }),

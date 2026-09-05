@@ -335,6 +335,44 @@ await cenario('pedido é fechado com total do servidor e código gerado', async 
   await page.waitForFunction(() => document.querySelector('[data-cart-count]')?.textContent === '0');
 });
 
+await cenario('totais não vazam "null" quando não há desconto', async (page) => {
+  // replaceChildren converte null no texto "null"; sem desconto na sacola a
+  // linha "Você economiza" some e o nulo aparecia entre Subtotal e Frete.
+  await page.goto(`${BASE}/loja`, { waitUntil: 'networkidle' });
+  await page.evaluate(() => localStorage.setItem('japu.cart.v1',
+    JSON.stringify([{ sku: 'CAC-PO-150', qty: 1 }])));
+  await page.goto(`${BASE}/sacola`, { waitUntil: 'networkidle' });
+  await esperar(page, '#totais');
+  await page.fill('#cep', '40010000');
+  await page.waitForFunction(() => document.querySelectorAll('.ship-option').length === 2);
+
+  const totais = await page.locator('#totais').innerText();
+  if (/\bnull\b|\bundefined\b/i.test(totais)) {
+    throw new Error(`valor nulo vazou para a tela: ${totais}`);
+  }
+  // E o desconto continua aparecendo quando existe de verdade.
+  await page.evaluate(() => localStorage.setItem('japu.cart.v1',
+    JSON.stringify([{ sku: 'CAC-CHA-100', qty: 1 }])));
+  await page.reload({ waitUntil: 'networkidle' });
+  await page.waitForFunction(
+    () => /economiza/i.test(document.querySelector('#totais')?.innerText ?? ''),
+    { timeout: 5000 }
+  );
+});
+
+await cenario('campo obrigatório vazio não é marcado como erro antes de digitar', async (page) => {
+  await page.goto(`${BASE}/loja`, { waitUntil: 'networkidle' });
+  await page.evaluate(() => localStorage.setItem('japu.cart.v1',
+    JSON.stringify([{ sku: 'CAC-PO-150', qty: 1 }])));
+  await page.goto(`${BASE}/sacola`, { waitUntil: 'networkidle' });
+  await esperar(page, '#nome');
+  const borda = await page.locator('#nome').evaluate((n) => getComputedStyle(n).borderColor);
+  // A cor de erro é #9b3226 → rgb(155, 50, 38).
+  if (borda.includes('155, 50, 38')) {
+    throw new Error('campo vazio não deve aparecer em vermelho antes da interação');
+  }
+});
+
 await cenario('pedido sem CEP não avança', async (page) => {
   await page.goto(`${BASE}/loja`, { waitUntil: 'networkidle' });
   await page.evaluate(() => localStorage.setItem('japu.cart.v1',

@@ -55,9 +55,11 @@ function render(alternativas) {
     el('div', { class: 'card-prices' }, [
       el('span', { class: 'price price--lg', text: brl(produto.priceCents) }),
       produto.compareAtCents ? el('span', { class: 'price price--was', text: brl(produto.compareAtCents) }) : null,
-      produto.unitPricePer100gCents
-        ? el('span', { class: 'price-unit', text: `${brl(produto.unitPricePer100gCents)} / 100 g` })
-        : produto.packLabel ? el('span', { class: 'price-unit', text: produto.packLabel }) : null,
+      produto.packLabel
+        ? el('span', { class: 'price-unit', text: produto.packLabel })
+        : produto.unitPricePer100gCents
+          ? el('span', { class: 'price-unit', text: `${brl(produto.unitPricePer100gCents)} / 100 g` })
+          : null,
     ]),
 
     produto.inStock ? blocoCompra() : blocoForaDeSafra(),

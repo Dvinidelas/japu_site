@@ -295,7 +295,8 @@
   position: absolute; top: 0; bottom: 0;
   background: var(--c-moss); border-radius: var(--r-pill);
 }
-.season-bar span[data-peak="true"] { background: var(--c-gold); }
+.season-bar span[data-state="returning"] { background: var(--c-gold); }
+.season-bar span[data-peak="true"] { background: var(--c-forest); }
 .season-status {
   font-family: var(--f-mono); font-size: 10px;
   letter-spacing: var(--track-label); text-transform: uppercase;
@@ -330,7 +331,14 @@
 
 .recipe { display: grid; grid-template-columns: 1fr 1.2fr; gap: 0; border: 1px solid var(--c-line); border-radius: var(--r-md); overflow: hidden; }
 @media (max-width: 860px) { .recipe { grid-template-columns: 1fr; } }
-.recipe-art { min-height: 260px; width: 100%; height: 100%; object-fit: cover; }
+.recipe-art { position: relative; min-height: 260px; overflow: hidden; }
+.recipe-art svg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  /* `slice` faz o desenho cobrir a coluna inteira em vez de deixar
+     sobra branca quando a proporcao da celula muda. */
+  object-fit: cover;
+}
 .recipe-body { padding: clamp(var(--sp-5), 4vw, var(--sp-7)); background: var(--c-paper); }
 
 .ingredient-list { display: grid; gap: var(--sp-2); margin: var(--sp-5) 0; }
@@ -469,9 +477,10 @@
   border: 1px solid var(--c-line); border-radius: var(--r-sm);
   background: var(--c-white); font-size: var(--t-small);
 }
-.field input:invalid:not(:placeholder-shown) { border-color: var(--c-danger); }
+.field input:user-invalid { border-color: var(--c-danger); }
 .field-hint { font-size: var(--t-micro); color: var(--c-ink-mute); }
-.field-error { font-size: var(--t-micro); color: var(--c-danger); min-height: 1em; }
+.field-error { font-size: var(--t-micro); color: var(--c-danger); }
+.field-error:empty { display: none; }
 
 /* --- Avisos temporarios (toast) ------------------------------------------- */
 
@@ -644,6 +653,8 @@
 @media (max-width: 880px) { .checkout-side { position: static; } }
 .checkout-side h2 { font-size: 1.25rem; margin-bottom: var(--sp-4); }
 .checkout-side h2 + * { margin-top: 0; }
+.checkout-side > form > h2 ~ h2 { margin-top: var(--sp-6); }
+.checkout-side h2 + * { margin-top: 0; }
 
 .ship-option {
   display: flex; align-items: center; gap: var(--sp-3);
@@ -700,7 +711,9 @@
   background: #3d7a3d; color: #fff; border: 0;
   font-size: var(--t-small);
 }
-.legacy-btn[disabled] { background: #d5d5d5; color: #8d8d8d; }
+.legacy-btn[data-esgotado] { background: #d5d5d5; color: #8d8d8d; }
+/* A grade "hoje" e so referencia visual: nao deve receber clique. */
+.product-grid--legacy { pointer-events: none; }
 
 .callout {
   padding: var(--sp-5);
@@ -708,3 +721,25 @@
   font-size: var(--t-small); color: var(--c-ink-soft);
 }
 .callout strong { color: var(--c-ink); }
+
+
+/* Cabecalho escuro nas paginas que abrem com o heroi do dossel. */
+body[data-header="canopy"] .site-header {
+  background: color-mix(in srgb, var(--c-canopy) 92%, transparent);
+  border-bottom-color: var(--c-line-dark);
+  color: var(--c-ink-invert);
+}
+body[data-header="canopy"] .submenu { color: var(--c-ink); }
+
+/* Sacola vazia sobre o cabeçalho escuro: o cinza claro do estado vazio some
+   no fundo do dossel, então ali ele vira contorno. */
+body[data-header="canopy"] .cart-count[data-empty="true"] {
+  background: transparent;
+  color: var(--c-ink-invert-mute);
+  box-shadow: inset 0 0 0 1px var(--c-line-dark);
+}
+
+
+/* O bloco de alternativas da lista de espera precisa respirar do botao. */
+.modal-card form + .stack { margin-top: var(--sp-5); }
+.modal-card form + .stack .btn { margin-top: var(--sp-2); }

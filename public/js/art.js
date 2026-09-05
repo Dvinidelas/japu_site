@@ -7,8 +7,9 @@
  * Quando as fotos reais da roca entrarem, basta trocar por <img> aqui.
  */
 
-const svg = (body, viewBox = '0 0 120 140') =>
-  `<svg viewBox="${viewBox}" role="img" aria-hidden="true" focusable="false">${body}</svg>`;
+const svg = (body, viewBox = '0 0 120 140', fit = 'meet') =>
+  `<svg viewBox="${viewBox}" preserveAspectRatio="xMidYMid ${fit}" role="img" ` +
+  `aria-hidden="true" focusable="false">${body}</svg>`;
 
 export const ART = {
   /** Saco kraft com rotulo escuro e selo verde — cacau em po, cha, pimenta. */
@@ -29,6 +30,16 @@ export const ART = {
     <ellipse cx="60" cy="70" rx="27" ry="50" fill="none" stroke="#a8441a" stroke-width="1.5"/>
     <path d="M60 22c-6 16-6 80 0 96" stroke="#e0703a" stroke-width="3" fill="none" stroke-linecap="round"/>
     <path d="M44 40c-4 20-4 44 0 62M76 40c4 20 4 44 0 62" stroke="#a8441a" stroke-width="1.5" fill="none" opacity=".6"/>
+  `),
+
+  /** Pote de manteiga — tampa larga, conteudo claro e cremoso. */
+  butter: () => svg(`
+    <rect x="26" y="52" width="68" height="62" rx="8" fill="#efe3cd"/>
+    <rect x="26" y="52" width="68" height="62" rx="8" fill="none" stroke="#d3c1a2" stroke-width="1.5"/>
+    <rect x="22" y="34" width="76" height="22" rx="6" fill="#5b4326"/>
+    <rect x="22" y="34" width="76" height="8" rx="4" fill="#6d5231"/>
+    <ellipse cx="60" cy="82" rx="22" ry="14" fill="#fbf3e3"/>
+    <path d="M46 84c5-7 23-7 28 0" stroke="#e0cfae" stroke-width="2" fill="none" stroke-linecap="round"/>
   `),
 
   /** Pote de compota — vidro com conteudo escuro e tampa verde. */
@@ -60,12 +71,14 @@ export const ART = {
     <ellipse cx="58" cy="46" rx="14" ry="11" fill="#eec384"/>
   `),
 
-  /** Caixa de kit. */
+  /** Caixa de kit, com fita atravessando as duas faces. */
   box: () => svg(`
     <path d="M22 52l38-18 38 18v52l-38 18-38-18z" fill="#c7a87c"/>
-    <path d="M22 52l38 18 38-18" fill="none" stroke="#a98a5f" stroke-width="2"/>
-    <path d="M60 70v52" stroke="#a98a5f" stroke-width="2"/>
-    <rect x="50" y="34" width="20" height="52" fill="#2f6b34" opacity=".85" transform="skewY(-25)" />
+    <path d="M22 52l38 18v52l-38-18z" fill="#b2946a"/>
+    <path d="M98 52l-38 18v52l38-18z" fill="#d3b68c"/>
+    <path d="M22 52l38 18 38-18" fill="none" stroke="#a98a5f" stroke-width="1.5"/>
+    <path d="M41 43l38 18v52l-6 3V64L35 46z" fill="#2f6b34" opacity=".9"/>
+    <path d="M60 70v52" stroke="#a98a5f" stroke-width="1.5"/>
   `),
 
   /** Folhagem do dossel — fundo das secoes escuras. */
@@ -87,7 +100,7 @@ export const ART = {
       <ellipse cx="70" cy="158" rx="42" ry="10" transform="rotate(-14 70 158)"/>
       <ellipse cx="240" cy="178" rx="44" ry="10" transform="rotate(26 240 178)"/>
     </g>
-  `, '0 0 400 260'),
+  `, '0 0 400 260', 'slice'),
 
   /** Morro da Mata Atlantica — usado no destaque do almanaque. */
   hills: () => svg(`
@@ -100,7 +113,7 @@ export const ART = {
     <rect width="400" height="260" fill="url(#sky)"/>
     <path d="M0 168c60-52 110-30 168 8 52 34 118 10 232-34v118H0z" fill="#3f5d3a"/>
     <path d="M0 210c74-42 138-22 214 14 46 22 118 4 186-26v62H0z" fill="#27401f"/>
-  `, '0 0 400 260'),
+  `, '0 0 400 260', 'slice'),
 };
 
 export function artFor(kind) {

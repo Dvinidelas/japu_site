@@ -27,9 +27,13 @@ function cardLegado(produto) {
     el('div', { class: 'legacy-media', html: artFor(produto.art) }),
     el('p', { class: 'legacy-name', text: nomeLegado(produto) }),
     el('span', { class: 'legacy-price', text: brl(produto.priceCents) }),
+    // A grade "hoje" e ilustrativa: nao clica (pointer-events no CSS) mas
+    // preserva a aparencia real de cada estado — verde quando tem, cinza
+    // quando esgota.
     produto.inStock
-      ? el('button', { class: 'legacy-btn', type: 'button', text: 'Comprar Agora', disabled: true })
-      : el('button', { class: 'legacy-btn', type: 'button', text: 'Esgotado', disabled: true }),
+      ? el('button', { class: 'legacy-btn', type: 'button', tabindex: '-1', text: 'Comprar Agora' })
+      : el('button', { class: 'legacy-btn', type: 'button', tabindex: '-1',
+                       'data-esgotado': 'true', text: 'Esgotado' }),
   ]);
 }
 

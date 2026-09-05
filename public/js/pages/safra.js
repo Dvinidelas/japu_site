@@ -68,7 +68,14 @@ function renderLinhas(rows) {
         // style-src sem 'unsafe-inline', e CSSOM continua permitido.
         faixa.style.left = `${(inicio / 12) * 100}%`;
         faixa.style.width = `${((m - inicio) / 12) * 100}%`;
-        if (row.peak.some((p) => p >= inicio && p < m)) faixa.dataset.peak = 'true';
+        // Verde para o que está dando agora, âmbar para o que ainda vai
+        // voltar. Colorir pelo pico deixava quase toda barra âmbar e a
+        // leitura de relance — "o que dá para comprar hoje?" — se perdia.
+        faixa.dataset.state = row.available ? 'available' : 'returning';
+        // O pico ganha um tom mais fechado dentro do próprio verde.
+        if (row.available && row.peak.some((p) => p >= inicio && p < m)) {
+          faixa.dataset.peak = 'true';
+        }
         barra.append(faixa);
         inicio = null;
       }

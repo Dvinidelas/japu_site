@@ -8,7 +8,7 @@ camada de segurança preparada para receber pagamento direto.
 npm install
 cp .env.example .env        # opcional em dev
 npm run dev                 # http://localhost:3000
-npm run test:all            # 36 testes de API/segurança + 30 cenários no navegador
+npm run test:all            # 38 testes de API/segurança + 30 cenários no navegador
 ```
 
 ## Sobre a plataforma atual
@@ -125,9 +125,10 @@ public/
   partials/             cabeçalho e rodapé (fonte única)
   *.html                páginas
 test/
-  api.test.mjs          21 testes de catálogo, preço, frete, checkout
+  api.test.mjs          23 testes de catálogo, preço, frete, checkout
   security.test.mjs     15 testes de CSP, CSRF, validação e vazamento
   e2e.mjs               30 cenários em Chromium real, com CSP ligada
+  shots.mjs             capturas de tela das páginas (npm run shots)
 docs/
   PAGAMENTO.md          passo a passo para ligar cobrança
   SEGURANCA.md          modelo de ameaça e checklist de produção

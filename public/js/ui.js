@@ -16,11 +16,16 @@ import { artFor } from './art.js';
 export const $  = (sel, root = document) => root.querySelector(sel);
 export const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 
-/** Escapa texto destinado a interpolacao em HTML. */
-export function esc(value) {
-  const div = document.createElement('div');
-  div.textContent = String(value ?? '');
-  return div.innerHTML;
+/**
+ * Troca os filhos de um no ignorando nulos.
+ *
+ * `Node.replaceChildren` e API do DOM: um `null` na lista vira o texto
+ * "null" na tela, em vez de sumir. Como os blocos condicionais aqui devolvem
+ * `null` quando nao ha o que mostrar, toda troca de filhos passa por esta
+ * funcao.
+ */
+export function setChildren(node, ...children) {
+  node.replaceChildren(...children.flat().filter((c) => c != null));
 }
 
 /** Cria elemento com atributos e filhos, sem passar por innerHTML. */
@@ -63,8 +68,8 @@ export function toast(message, tone = 'ok') {
 
 /**
  * Liga o cabecalho: hamburger, submenu de categorias e botao da sacola.
- * O submenu abre no hover apenas em telas com ponteiro fino; no toque e no
- * teclado ele responde ao clique, senao vira uma armadilha no celular.
+ * O submenu responde a clique e a teclado; Esc fecha e devolve o foco ao
+ * gatilho, e clique fora fecha o que estiver aberto.
  */
 export function initNav() {
   const burger = $('.nav-burger');
@@ -95,9 +100,14 @@ export function initNav() {
       setOpen(toggle.getAttribute('aria-expanded') !== 'true');
     });
 
-    // Esc fecha e devolve o foco ao gatilho.
-    menu.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') { setOpen(false); toggle.focus(); }
+    // Esc fecha e devolve o foco ao gatilho. O ouvinte fica no documento, e
+    // nao no menu: depois de abrir com Enter o foco continua no botao, entao
+    // um ouvinte preso ao menu nunca receberia a tecla.
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      if (toggle.getAttribute('aria-expanded') !== 'true') return;
+      setOpen(false);
+      toggle.focus();
     });
   }
 
@@ -174,12 +184,15 @@ export function productCard(product, { onAdd, onWaitlist } = {}) {
 
   const prices = el('div', { class: 'card-prices' }, [
     el('span', { class: 'price price--lg', text: brl(product.priceCents) }),
+    // Quando o produto tem rotulo de embalagem (o pote de 280 g), ele diz
+    // mais que o preco por 100 g — comparar compota por grama nao ajuda
+    // ninguem a decidir.
     product.compareAtCents
       ? el('span', { class: 'price price--was', text: brl(product.compareAtCents) })
-      : product.unitPricePer100gCents
-        ? el('span', { class: 'price-unit', text: `${brl(product.unitPricePer100gCents)} / 100 g` })
-        : product.packLabel
-          ? el('span', { class: 'price-unit', text: product.packLabel })
+      : product.packLabel
+        ? el('span', { class: 'price-unit', text: product.packLabel })
+        : product.unitPricePer100gCents
+          ? el('span', { class: 'price-unit', text: `${brl(product.unitPricePer100gCents)} / 100 g` })
           : null,
   ]);
 
