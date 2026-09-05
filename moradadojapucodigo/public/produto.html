@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<!--#include head -->
+  <title>Produto — Morada do Japu</title>
+  <meta name="description" content="Produto agroflorestal da Morada do Japu, com frete calculado antes do checkout.">
+</head>
+<body data-buybar="true">
+<!--#include cabecalho -->
+
+<main id="conteudo" class="section--tight">
+  <div class="wrap">
+    <nav class="breadcrumb" aria-label="Você está em">
+      <a href="/">Início</a> <span aria-hidden="true">/</span>
+      <a href="/loja">Loja</a> <span aria-hidden="true">/</span>
+      <span id="bc-atual">Produto</span>
+    </nav>
+
+    <div class="product-layout" id="produto" aria-busy="true">
+      <p class="card-desc">Carregando o produto…</p>
+    </div>
+
+    <section class="section--tight" id="alternativas-bloco" hidden>
+      <h2>Disponível agora</h2>
+      <div class="product-grid" id="alternativas"></div>
+    </section>
+  </div>
+</main>
+
+<!--#include rodape -->
+
+<!-- Item 5: barra fixa de compra, sempre à mão no celular -->
+<div class="buy-bar" id="barra-compra" hidden>
+  <div class="buy-bar-price">
+    <span class="price price--lg" id="barra-preco">—</span>
+    <small id="barra-parcela"></small>
+  </div>
+  <button class="btn btn--primary" type="button" id="barra-botao">Adicionar</button>
+</div>
+
+<script type="module" src="/js/pages/produto.js"></script>
+</body>
+</html>

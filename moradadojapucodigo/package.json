@@ -1,0 +1,28 @@
+{
+  "name": "japu-site",
+  "version": "1.0.0",
+  "description": "Morada do Japu — frontend agroflorestal e API de loja com camada de seguranca pronta para pagamento",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.11"
+  },
+  "scripts": {
+    "dev": "NODE_ENV=development node --watch server/index.js",
+    "start": "NODE_ENV=production node server/index.js",
+    "test": "node --test test/",
+    "test:e2e": "node test/e2e.mjs",
+    "test:all": "npm test && npm run test:e2e",
+    "shots": "node test/shots.mjs"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0"
+  }
+}

@@ -1,0 +1,45 @@
+<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+<header class="site-header">
+  <div class="wrap header-bar">
+    <a class="brand brand-mark" href="/">
+      <svg class="brand-mark-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+        <rect width="32" height="32" rx="8" fill="#1e3a24"/>
+        <path d="M16 25c0-7 4-12 9-13-1 8-4 12-9 13z" fill="#d9a02b"/>
+        <path d="M16 25c0-6-3-10-8-11 1 7 3 10 8 11z" fill="#8a9a7b"/>
+        <path d="M16 26v-6" stroke="#f2f1e6" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-mark-word" aria-hidden="true">Morada do Japu</span>
+      <span class="sr-only">Morada do Japu — página inicial</span>
+    </a>
+
+    <button class="nav-burger" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-principal">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M3 6h18M3 12h18M3 18h18"/>
+      </svg>
+    </button>
+
+    <nav class="nav" id="nav-principal" aria-label="Navegação principal">
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/loja">Loja</a></li>
+        <li class="nav-item">
+          <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu-categorias" aria-haspopup="true">
+            Categorias
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul class="submenu" id="menu-categorias" data-category-menu data-open="false">
+            <li><a href="/loja">Ver tudo</a></li>
+          </ul>
+        </li>
+        <li><a class="nav-link" href="/safra">Da safra</a></li>
+        <li><a class="nav-link" href="/proposta">A proposta</a></li>
+      </ul>
+
+      <button class="cart-btn" type="button" data-open-cart aria-label="Abrir sacola">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <span class="cart-count" data-cart-count data-empty="true">0</span>
+      </button>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,77 @@
+MORADA DO JAPU — pacote para teste local
+==========================================
+
+ONDE COLOCAR
+------------
+Extraia esta pasta inteira dentro de:
+
+    C:\xampp\htdocs\japu_site      (Windows)
+    /Applications/XAMPP/htdocs/japu_site   (Mac)
+    /opt/lampp/htdocs/japu_site    (Linux)
+
+IMPORTANTE — ISSO NÃO RODA PELO APACHE DO XAMPP
+-------------------------------------------------
+O XAMPP serve Apache + PHP + MySQL. Este site é diferente: é uma
+aplicação Node.js/Express, com API própria (carrinho, frete, produtos,
+calendário de safra). Se você só abrir pelo Apache
+(http://localhost/japu_site), as páginas carregam em branco, porque
+o Apache não sabe rodar o servidor Node por trás.
+
+O XAMPP aqui serve só de "pasta compartilhada" — pra você ter os
+arquivos organizados num lugar conhecido. Quem roda o site de
+verdade é o Node, direto, numa porta separada (3000), sem passar
+pelo Apache.
+
+COMO RODAR DE VERDADE (3 passos)
+----------------------------------
+1. Instale o Node.js (se ainda não tiver):
+   https://nodejs.org  → baixe a versão LTS e instale normalmente.
+
+2. Abra um terminal (cmd, PowerShell ou terminal do Mac/Linux) dentro
+   da pasta do projeto:
+
+       cd C:\xampp\htdocs\japu_site      (ajuste pro seu caminho)
+       npm install
+       npm run dev
+
+3. Abra o navegador em:
+
+       http://localhost:3000
+
+   Pronto — loja completa, carrinho, filtros, calendário de safra,
+   tudo funcionando.
+
+PARA RODAR OS TESTES AUTOMATIZADOS
+-------------------------------------
+    npm test           → 38 testes de API e segurança
+    npm run test:e2e   → 30 testes num navegador real (Chromium)
+                          (baixa o Chromium na primeira vez, se não
+                           tiver o Playwright configurado)
+    npm run shots       → gera capturas de tela de cada página em
+                          ./capturas
+
+ESTRUTURA RÁPIDA
+-------------------
+    server/   → o backend Node (API, preços, segurança)
+    public/   → HTML, CSS e JS do site (o que aparece no navegador)
+    test/     → os testes
+    docs/     → PAGAMENTO.md (como ligar cobrança) e
+                SEGURANCA.md (o que foi protegido e por quê)
+    README.md → visão geral completa do projeto
+
+DÚVIDAS FREQUENTES
+---------------------
+"Rodou, mas os produtos não aparecem"
+  → Confira se o terminal com `npm run dev` continua aberto. Fechar
+    o terminal derruba o servidor.
+
+"Erro 'porta 3000 já em uso'"
+  → Outro programa está usando essa porta. Rode assim, escolhendo
+    outra porta:
+        set PORT=3001 && npm run dev      (Windows/cmd)
+        PORT=3001 npm run dev             (Mac/Linux)
+    e acesse http://localhost:3001
+
+"Quero comparar com a proposta original"
+  → Abra http://localhost:3000/proposta — tem o antes/depois lado
+    a lado, os 5 pontos da proposta e link pra cada exemplo.
