@@ -1,0 +1,118 @@
+/* ===========================================================================
+   Base — reset enxuto, tipografia e layout de pagina
+   =========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  /* O header e fixo; ancoras precisam parar abaixo dele. */
+  scroll-padding-top: 88px;
+}
+
+body {
+  margin: 0;
+  background: var(--c-cream);
+  color: var(--c-ink);
+  font-family: var(--f-sans);
+  font-size: var(--t-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img, svg, video { max-width: 100%; height: auto; display: block; }
+
+h1, h2, h3, h4 {
+  font-family: var(--f-display);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 0 0 var(--sp-4);
+  color: var(--c-ink);
+}
+
+h1 { font-size: var(--t-display-xl); }
+h2 { font-size: var(--t-display-l); }
+h3 { font-size: var(--t-display-m); }
+
+p { margin: 0 0 var(--sp-4); color: var(--c-ink-soft); }
+
+a { color: inherit; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); }
+a:hover { text-decoration-color: currentColor; }
+
+/* Foco visivel e consistente — obrigatorio num fluxo de compra que
+   precisa ser navegavel so pelo teclado. */
+:focus-visible {
+  outline: 2px solid var(--c-gold);
+  outline-offset: 3px;
+  border-radius: var(--r-sm);
+}
+:focus:not(:focus-visible) { outline: none; }
+
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+
+/* --- Utilitarios de layout ------------------------------------------------ */
+
+.wrap { width: min(100% - 2.5rem, var(--wrap)); margin-inline: auto; }
+.wrap-narrow { width: min(100% - 2.5rem, var(--wrap-narrow)); margin-inline: auto; }
+
+.section { padding-block: clamp(var(--sp-7), 6vw, var(--sp-9)); }
+.section--tight { padding-block: var(--sp-7); }
+
+.stack > * + * { margin-top: var(--sp-4); }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Link para pular a navegacao — aparece so no foco por teclado. */
+.skip-link {
+  position: absolute; left: var(--sp-4); top: -100%;
+  z-index: 200; padding: var(--sp-3) var(--sp-4);
+  background: var(--c-forest); color: var(--c-ink-invert);
+  border-radius: var(--r-md); text-decoration: none; font-weight: 600;
+}
+.skip-link:focus { top: var(--sp-4); }
+
+/* --- Rotulo em caixa alta (o "eyebrow" dos slides) ------------------------ */
+
+.eyebrow {
+  font-family: var(--f-mono);
+  font-size: var(--t-micro);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--c-gold);
+  margin: 0 0 var(--sp-3);
+}
+.eyebrow--mute { color: var(--c-ink-mute); }
+
+.lead { font-size: var(--t-lead); color: var(--c-ink-soft); max-width: 34ch; }
+
+/* Preco: sempre em monoespacada, como no mockup, para que as colunas de
+   valores alinhem entre si na grade de produtos. */
+.price {
+  font-family: var(--f-mono);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--c-ink);
+}
+.price--lg { font-size: 1.35rem; }
+.price--was { font-weight: 400; color: var(--c-ink-mute); text-decoration: line-through; }
+.price-unit { font-family: var(--f-mono); font-size: var(--t-micro); color: var(--c-ink-mute); }
+
+/* --- Tema escuro "Dossel" ------------------------------------------------- */
+
+.canopy {
+  background: var(--c-canopy);
+  color: var(--c-ink-invert);
+}
+.canopy h1, .canopy h2, .canopy h3 { color: var(--c-ink-invert); }
+.canopy p { color: var(--c-ink-invert-mute); }
+.canopy .price { color: var(--c-ink-invert); }
+.canopy .eyebrow { color: var(--c-gold); }

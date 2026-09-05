@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<!--#include head -->
+  <title>Loja — Morada do Japu</title>
+  <meta name="description" content="Cacau, cupuaçu, frutas desidratadas, compotas, temperos e kits da agrofloresta, organizados por categoria.">
+</head>
+<body>
+<!--#include cabecalho -->
+
+<main id="conteudo">
+  <section class="section--tight">
+    <div class="wrap">
+      <p class="eyebrow eyebrow--mute">A loja</p>
+      <h1>O que a mata está dando</h1>
+      <p class="lead">
+        Catálogo organizado por categoria — cacau, cupuaçu, desidratados,
+        compotas, temperos e kits — em vez de uma lista só.
+      </p>
+    </div>
+  </section>
+
+  <!-- Item 2 da proposta: filtros por categoria, com contagem real -->
+  <section>
+    <div class="wrap">
+      <div class="filters" role="group" aria-label="Filtrar por categoria" id="filtros">
+        <button class="chip" type="button" data-categoria="tudo" aria-pressed="true">Tudo</button>
+      </div>
+      <p class="filter-status sr-only" role="status" aria-live="polite" id="status-filtro"></p>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="wrap">
+      <div class="product-grid" id="grade" aria-busy="true">
+        <p class="card-desc">Carregando o catálogo…</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!--#include rodape -->
+
+<script type="module" src="/js/pages/loja.js"></script>
+</body>
+</html>
