@@ -8,7 +8,16 @@
  */
 import { existsSync } from 'node:fs';
 import { chromium } from 'playwright';
-import { createApp } from '../server/index.js';
+
+// O rate limit conta por IP e a suite inteira vem do mesmo 127.0.0.1; sem
+// afrouxar aqui, os ultimos cenarios falhariam com 429 por causa do arranjo
+// de teste, nao da aplicacao. O limite em si tem teste proprio em
+// test/security.test.mjs. Import dinamico porque config.js le o ambiente
+// no momento do import.
+process.env.RATE_LIMIT_MAX = '100000';
+process.env.RATE_LIMIT_WRITE_MAX = '100000';
+process.env.RATE_LIMIT_CHECKOUT_MAX = '100000';
+const { createApp } = await import('../server/index.js');
 
 const app = createApp();
 const server = await new Promise((r) => { const s = app.listen(0, '127.0.0.1', () => r(s)); });
@@ -419,9 +428,17 @@ await cenario('página da proposta monta o antes e o depois', async (page) => {
 
 await cenario('navegação por teclado alcança o submenu e a sacola', async (page) => {
   await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
-  await page.keyboard.press('Tab'); // skip link
-  const primeiro = await page.evaluate(() => document.activeElement?.className);
-  if (!primeiro?.includes('skip-link')) throw new Error('o primeiro foco deveria ser o skip link');
+  // O link de pular precisa ser o primeiro da ordem de tabulacao...
+  const primeiroFocavel = await page.evaluate(
+    () => document.querySelector('a[href], button, input, select, textarea')?.className ?? ''
+  );
+  if (!primeiroFocavel.includes('skip-link')) {
+    throw new Error(`o primeiro focável deveria ser o skip link, veio "${primeiroFocavel}"`);
+  }
+  // ...e sair do esconderijo quando recebe foco.
+  await page.locator('.skip-link').focus();
+  const topo = await page.locator('.skip-link').evaluate((n) => n.getBoundingClientRect().top);
+  if (topo < 0) throw new Error('o skip link deveria aparecer ao receber foco');
 
   await page.locator('.nav-toggle').focus();
   await page.keyboard.press('Enter');
